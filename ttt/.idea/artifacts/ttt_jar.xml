@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ttt:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ttt_jar</output-path>
+    <root id="archive" name="ttt.jar">
+      <element id="module-output" name="ttt" />
+    </root>
+  </artifact>
+</component>

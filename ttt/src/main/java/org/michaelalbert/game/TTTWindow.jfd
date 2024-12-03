@@ -1,0 +1,119 @@
+JFDML JFormDesigner: "8.2.4.0.393" Java: "21.0.5" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {comp desktopPane1::l::793:x}"
+			"$verticalGroup": "par l {comp desktopPane1::l::444:x}"
+		} ) {
+			name: "this"
+			add( new FormContainer( "javax.swing.JDesktopPane", new FormLayoutManager( class javax.swing.JDesktopPane ) ) {
+				name: "desktopPane1"
+				add( new FormContainer( "javax.swing.JInternalFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq {par l:::p {comp button9::::74:x, comp button6::::74:x, comp button1::::74:x}, space :::p, par l {comp button5::::66:x, comp button2:::::x, comp button8::::66:x}, space :::p, par l:::p {comp button3::t::76:x, comp button4::t::76:x, comp button7::t::76:x}}}"
+					"$verticalGroup": "par l {seq l {par l {comp button3::l::64:x, comp button2::l:::x, comp button1::l::64:x}, space :::p, par l {comp button6::::64:x, comp button4::::64:x, comp button5:::::x}, space :::p, par l {comp button7::l::64:x, comp button9::t::64:x, comp button8::l:::x}}}"
+				} ) {
+					name: "internalFrame1"
+					"visible": true
+					"minimumSize": new java.awt.Dimension( 150, 150 )
+					"maximumSize": new java.awt.Dimension( 150, 150 )
+					"preferredSize": new java.awt.Dimension( 150, 150 )
+					"title": "Tic Tac Toe Board"
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "button1"
+						"text": "?"
+						"font": &SwingDerivedFont0 new com.jformdesigner.model.SwingDerivedFont( null, 131072, 6, false )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "button2"
+						"text": "?"
+						"font": #SwingDerivedFont0
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "button3"
+						"text": "?"
+						"font": #SwingDerivedFont0
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "button4"
+						"text": "?"
+						"font": #SwingDerivedFont0
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "button5"
+						"text": "?"
+						"font": #SwingDerivedFont0
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "button6"
+						"text": "?"
+						"font": #SwingDerivedFont0
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "button7"
+						"text": "?"
+						"font": #SwingDerivedFont0
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "button8"
+						"text": "?"
+						"font": #SwingDerivedFont0
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "button9"
+						"text": "?"
+						"font": #SwingDerivedFont0
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"x": 85
+					"y": 15
+					"width": 240
+					"height": 240
+				} )
+				add( new FormContainer( "javax.swing.JInternalFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq l {space :::p, comp scrollPane1::::461:x, space :::p}}"
+					"$verticalGroup": "par l {seq l {space :::p, comp scrollPane1::::132:x, space :::p}}"
+				} ) {
+					name: "internalFrame2"
+					"visible": true
+					"title": "Logs"
+					"iconifiable": true
+					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+						name: "scrollPane1"
+						add( new FormComponent( "javax.swing.JTextArea" ) {
+							name: "textArea1"
+						} )
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"x": 5
+					"y": 260
+					"width": 485
+					"height": 180
+				} )
+				add( new FormContainer( "javax.swing.JInternalFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {comp scrollPane2::l::283:x}"
+					"$verticalGroup": "par l {comp scrollPane2::l::394:x}"
+				} ) {
+					name: "internalFrame3"
+					"visible": true
+					"iconifiable": true
+					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+						name: "scrollPane2"
+						add( new FormComponent( "javax.swing.JEditorPane" ) {
+							name: "updatescreen"
+						} )
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"x": 495
+					"y": 5
+					"width": 295
+					"height": 430
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 795, 475 )
+		} )
+	}
+}
