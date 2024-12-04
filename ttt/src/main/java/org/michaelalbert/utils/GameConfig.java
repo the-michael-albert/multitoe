@@ -11,11 +11,7 @@ public class GameConfig {
 
     public static String getGameHost() {
         String host = ReadOnlyPropertiesMap.INSTANCE.containsKey("game.host") ? ReadOnlyPropertiesMap.INSTANCE.get("game.host") : "localhost";
-        // if host is a .org domain, resolve the IP address
-        if (host.endsWith(".org")) {
-            host = NetworkUtils.resolveIP(host);
-            Slug.log("Resolved host to " + host);
-        }
+        Slug.log("Game host: " + host);
         return host;
     }
 
