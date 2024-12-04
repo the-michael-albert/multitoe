@@ -1,5 +1,7 @@
 package org.michaelalbert.networking;
 
+import lombok.Getter;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
@@ -9,11 +11,15 @@ public abstract class TCPClient implements ClientInterface{
     private DataOutputStream out;
     private DataInputStream in;
 
+    @Getter
+    boolean connected = false;
+
     @Override
     public void start(String host, int port) {
         try {
             socket = new Socket(host, port);
             System.out.println("CONNECTED!" + socket);
+            connected = true;
 
             out = new DataOutputStream(socket.getOutputStream());
             in = new DataInputStream(socket.getInputStream());
@@ -29,13 +35,13 @@ public abstract class TCPClient implements ClientInterface{
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
+                        connected = false;
                         break;
                     }
                 }
             }).start();
-
-
         } catch (Exception e) {
+            connected = false;
             e.printStackTrace();
         }
     }

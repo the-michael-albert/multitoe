@@ -1,5 +1,7 @@
 package org.michaelalbert.networking;
 
+import org.michaelalbert.utils.Slug;
+
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
@@ -33,14 +35,15 @@ public abstract class TCPServer implements ServerInterface {
                 // Call abstract method to allow for custom behavior on connection
                 onConnection(clientHandler);
 
-                System.out.println("=====================================");
-                System.out.println("Client connected: " + socket);
-                System.out.println("UUID: " + uuid);
-                System.out.println("Clients: " + clients.size());
-                System.out.println("=====================================");
+                Slug.log("=====================================");
+                Slug.log("Client connected: " + socket);
+                Slug.log("UUID: " + uuid);
+                Slug.log("Clients: " + clients.size());
+                Slug.log("=====================================");
 
                 // Start a new thread for each client
                 new Thread(clientHandler).start(); // Start a new thread for each client
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,5 +71,11 @@ public abstract class TCPServer implements ServerInterface {
         synchronized (users) {
             users.remove(uuid);
         }
+    }
+
+    @Override
+    public void onDisconnect(ClientHandler clientHandler) {
+        System.err.println("Client disconnected: " + clientHandler.getId());
+        removeClient(clientHandler);
     }
 }

@@ -57,7 +57,7 @@ public class TTTWindow extends JFrame {
     }
 
 
-    private static String compileGameHTML(String gameId, Character player, Character turn, String err, String success, String warning) {
+    private static String compileGameHTML(String gameId, char player, char turn, String err, String success, String warning) {
         String out = "<html><head><style>body {font-family: Arial, sans-serif; background-color: #444; color: #ddd;} #err {background-color:#400;} #warn {background-color:#440;} #suc {background-color:#040;}</style></head><body>" +
                 "<h1>Game ID: " + gameId + "</h1>" +
                 "<h2>My Player: " + player + "</h2>";
@@ -165,6 +165,11 @@ public class TTTWindow extends JFrame {
         initComponents();
         updatescreen.setContentType( "text/html" );
         updatescreen.setEditable(false);
+        //exit on close
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
+
         button1.addActionListener(e -> {
             client.makeMove(0, 0);
             updateScreenError(null);
@@ -211,6 +216,8 @@ public class TTTWindow extends JFrame {
             updateScreenError(null);
 
         });
+
+
     }
 
     private void initComponents() {

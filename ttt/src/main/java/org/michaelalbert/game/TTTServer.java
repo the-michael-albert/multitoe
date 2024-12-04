@@ -3,6 +3,7 @@ package org.michaelalbert.game;
 import org.michaelalbert.game.reqres.*;
 import org.michaelalbert.networking.ClientHandler;
 import org.michaelalbert.networking.TCPServer;
+import org.michaelalbert.utils.Slug;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -110,6 +111,7 @@ public class TTTServer extends TCPServer {
                 MoveRequest moveRequest = MoveRequest.fromString(rawMessage);
                 TTTInstance game = server.games.get(moveRequest.getGameId());
                 if (game == null) {
+                    callback.sendMessage(GameErrorRequest.builder().message("Game not found").build().toString());
                     return;
                 }
                 server.handleMoveRequest(moveRequest,  callback);
@@ -119,7 +121,6 @@ public class TTTServer extends TCPServer {
         server.addRequestHandler(GetGameListRequest.ACTION, new ServerRequestHandler() {
             @Override
             public void onMessage(String action, String data, String rawMessage, ClientHandler callback) {
-                System.out.println("GetGameListRequest");
                 ArrayList<GameTuple> gameList = new ArrayList<>();
                 server.games.forEach((gameId, game) -> {
                     gameList.add(new GameTuple(gameId, game.getPlayerCount()));
@@ -158,12 +159,26 @@ public class TTTServer extends TCPServer {
         if (clients.containsKey(action)) {
             clients.get(action).onMessage(action, actualMessage, receivedMessage, clientHandler);
         } else {
-            System.out.println("No handler for action: " + action);
+            Slug.logError("Unknown action: " + action);
         }
     }
 
     @Override
     protected void onConnection(ClientHandler clientHandler) {
 
+    }
+
+    @Override
+    public void onDisconnect(ClientHandler clientHandler) {
+        super.onDisconnect(clientHandler);
+        games.forEach((gameId, game) -> {
+            if (game.getPlayerX() == clientHandler) {
+                game.getPlayerO().sendMessage(GameErrorRequest.builder().message("Opponent disconnected").build().toString());
+                games.remove(gameId);
+            } else if (game.getPlayerO() == clientHandler) {
+                game.getPlayerX().sendMessage(GameErrorRequest.builder().message("Opponent disconnected").build().toString());
+                games.remove(gameId);
+            }
+        });
     }
 }

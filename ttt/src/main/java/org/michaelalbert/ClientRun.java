@@ -1,7 +1,7 @@
 package org.michaelalbert;
 
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import org.michaelalbert.gamemanager.JoinGame;
+import com.formdev.flatlaf.FlatDarkLaf;
 
 import javax.swing.*;
 
@@ -9,7 +9,7 @@ public class ClientRun {
     public static void main(String[] args) {
         //set look and feel to the system look and feel
         try {
-            UIManager.setLookAndFeel(FlatMacDarkLaf.class.getName());
+            UIManager.setLookAndFeel(new FlatDarkLaf());
         } catch (Exception e) {
             e.printStackTrace();
         }

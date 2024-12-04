@@ -2,6 +2,7 @@ package org.michaelalbert.networking;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.michaelalbert.utils.Slug;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -32,6 +33,7 @@ public class ClientHandler implements Runnable {
             out = new DataOutputStream(clientSocket.getOutputStream());
         } catch (Exception e) {
             e.printStackTrace();
+
         }
 
         if (id!=null) {
@@ -49,9 +51,11 @@ public class ClientHandler implements Runnable {
                     byte[] message = new byte[length];
                     in.readFully(message, 0, message.length);
                     serverInterface.onMessage(message, this);
+                    Slug.log(this.id, new String(message, "Latin1"));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                serverInterface.onDisconnect(this);
                 break;
             }
         }
@@ -60,6 +64,7 @@ public class ClientHandler implements Runnable {
     public void sendMessage(String message) {
         try {
             sendMessage(message.getBytes("Latin1"));
+            Slug.log(this.id, message);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }

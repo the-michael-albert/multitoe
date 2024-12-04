@@ -32,27 +32,30 @@ public class JoinGame extends JFrame {
         new Thread(() -> GUIClientRun.main(new String[]{serverHost, serverPort, gameId})).start();
     }
 
-    TTTClient client = new TTTClient(TTTInstance.X) {
-        @Override
-        public void log(String message) {
-            System.err.println(message);
-        }
-
-        @Override
-        public void GameListInfoRequestCallback(GameListInfoRequest gameListInfoRequest) {
-            //update table
-            table.setModel(new GameListTableModel(gameListInfoRequest.getGameList()));
-        }
-
-        @Override
-        public void GameListInfoRequestCallback(boolean found) {
-            //update table
-            if (!found) {
-                JOptionPane.showMessageDialog(JoinGame.this, "No games found; create a new game");
+    private TTTClient makeClient(){
+        return new TTTClient(TTTInstance.X) {
+            @Override
+            public void log(String message) {
+                System.err.println(message);
             }
-        }
 
-    };
+            @Override
+            public void GameListInfoRequestCallback(GameListInfoRequest gameListInfoRequest) {
+                //update table
+                table.setModel(new GameListTableModel(gameListInfoRequest.getGameList()));
+            }
+
+            @Override
+            public void GameListInfoRequestCallback(boolean found) {
+                //update table
+                if (!found) {
+                    JOptionPane.showMessageDialog(JoinGame.this, "No games found; create a new game");
+                }
+            }
+        };
+    }
+
+    TTTClient client = makeClient();
 
     public JoinGame() {
         client.start(serverHost, Integer.parseInt(serverPort));
@@ -60,6 +63,20 @@ public class JoinGame extends JFrame {
         refreshbtn.addActionListener(e -> {
             client.queryGameList();
         });
+
+        // make a function that repeatedly tries to connect to the server if it fails
+        // if it fails, show a dialog box that says "Failed to connect to server. Retry?"
+        // if the user clicks "yes", try to connect again
+        // if the user clicks "no", close the dialog box and exit the program
+
+        if (!client.isConnected()) {
+            int result = JOptionPane.showConfirmDialog(this, "Failed to connect to server. Retry?", "Connection Error", JOptionPane.YES_NO_OPTION);
+            if (result == JOptionPane.YES_OPTION) {
+                client.start(serverHost, Integer.parseInt(serverPort));
+            } else {
+                System.exit(0);
+            }
+        }
         
         //textF
 

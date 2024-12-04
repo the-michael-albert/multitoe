@@ -10,4 +10,6 @@ public interface ServerInterface {
 
     void removeClient(ClientHandler clientHandler);
 
+    void onDisconnect(ClientHandler clientHandler);
+
 }
