@@ -14,6 +14,7 @@ public class GameConfig {
         // if host is a .org domain, resolve the IP address
         if (host.endsWith(".org")) {
             host = NetworkUtils.resolveIP(host);
+            Slug.log("Resolved host to " + host);
         }
         return host;
     }
