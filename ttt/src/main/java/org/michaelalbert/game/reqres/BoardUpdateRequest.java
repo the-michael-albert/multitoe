@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import static org.michaelalbert.game.BoardAnalyzer.getCorrectedBoard;
+
 @Builder
 @Getter
 @Setter
@@ -39,6 +41,7 @@ public class BoardUpdateRequest {
     }
 
     public void printBoard() {
+        char[][] board = getCorrectedBoard(this.board);
         String output =
                 "╔═══╦═══╦═══╗\n" +
                 "║ " + board[0][0] + " ║ " + board[0][1] + " ║ " + board[0][2] + " ║\n" +

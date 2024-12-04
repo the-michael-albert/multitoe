@@ -55,6 +55,7 @@ public class ClientHandler implements Runnable {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                Slug.log(this.id, "Disconnected");
                 serverInterface.onDisconnect(this);
                 break;
             }

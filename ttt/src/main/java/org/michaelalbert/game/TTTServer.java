@@ -174,10 +174,18 @@ public class TTTServer extends TCPServer {
         super.onDisconnect(clientHandler);
         games.forEach((gameId, game) -> {
             if (game.getPlayerX() == clientHandler) {
-                game.getPlayerO().sendMessage(GameErrorRequest.builder().message("Opponent disconnected").build().toString());
+                try {
+                    game.getPlayerO().sendMessage(GameErrorRequest.builder().message("Opponent disconnected").build().toString());
+                } catch (Exception e) {
+                    Slug.logError("Opponent disconnected");
+                }
                 games.remove(gameId);
             } else if (game.getPlayerO() == clientHandler) {
-                game.getPlayerX().sendMessage(GameErrorRequest.builder().message("Opponent disconnected").build().toString());
+                try {
+                    game.getPlayerX().sendMessage(GameErrorRequest.builder().message("Opponent disconnected").build().toString());
+                } catch (Exception e) {
+                    Slug.logError("Opponent disconnected");
+                }
                 games.remove(gameId);
             }
         });
