@@ -10,6 +10,7 @@ public class TTTInstance {
 
     public static final char X = 'x';
     public static final char O = 'o';
+    public static final char EMPTY = '?';
 
     public char[][] board = new char[3][3];
     public char currentPlayer = TTTInstance.X;
@@ -19,7 +20,7 @@ public class TTTInstance {
     public TTTInstance() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                board[i][j] = '?';
+                board[i][j] = TTTInstance.EMPTY;
             }
         }
     }
@@ -28,7 +29,7 @@ public class TTTInstance {
         if (player != currentPlayer) {
             return false;
         }
-        if (board[x][y] == '?') {
+        if (board[x][y] == TTTInstance.EMPTY) {
             board[x][y] = currentPlayer;
             currentPlayer = currentPlayer == TTTInstance.X ? TTTInstance.O : TTTInstance.X;
             return true;

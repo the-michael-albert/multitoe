@@ -25,16 +25,19 @@ public class TTTWindow extends JFrame {
     String error = null;
     @Setter
     String success = null;
+    @Setter
+    String warning = null;
 
     private void updateScreenError() {
         //update with swinguilities update
         SwingUtilities.invokeLater(() -> {
-            updatescreen.setText(compileGameHTML(client.gameId, client.role, turn, error, success));
+            updatescreen.setText(compileGameHTML(client.gameId, client.role, turn, error, success, warning));
         });
     }
 
     private void updateScreenError(String err) {
         error = err;
+        this.warning = null;
         this.success = null;
         updateScreenError();
     }
@@ -42,12 +45,20 @@ public class TTTWindow extends JFrame {
     private void updateScreenSuccess(String success) {
         this.success = success;
         this.error = null;
+        this.warning = null;
+        updateScreenError();
+    }
+
+    private void updateScreenWarning(String warning) {
+        this.warning = warning;
+        this.error = null;
+        this.success = null;
         updateScreenError();
     }
 
 
-    private static String compileGameHTML(String gameId, Character player, Character turn, String err, String success) {
-        String out = "<html><head><style>body {font-family: Arial, sans-serif; background-color: #444; color: #ddd;} #err {background-color:#400;} #suc {background-color:#040;}</style></head><body>" +
+    private static String compileGameHTML(String gameId, Character player, Character turn, String err, String success, String warning) {
+        String out = "<html><head><style>body {font-family: Arial, sans-serif; background-color: #444; color: #ddd;} #err {background-color:#400;} #warn {background-color:#440;} #suc {background-color:#040;}</style></head><body>" +
                 "<h1>Game ID: " + gameId + "</h1>" +
                 "<h2>My Player: " + player + "</h2>";
 
@@ -59,12 +70,15 @@ public class TTTWindow extends JFrame {
         }
 
         if (err != null) {
-            out += "<p id='err'>ErrorMessage: " + err + "</p>" +
+            out += "<p id='err'>Error: " + err + "</p>" +
                     "</body></html>";
         } else if (success != null) {
             out += "<p id='suc'>Success: " + success + "</p>" +
                     "</body></html>";
-        } else {
+        } else if (warning != null) {
+            out += "<p id='warn'>Warning: " + warning + "</p>" +
+                    "</body></html>";
+        }else {
             out += "</body></html>";
         }
         return out;
@@ -122,14 +136,18 @@ public class TTTWindow extends JFrame {
         @Override
         public void GameFinishedRequestCallback(GameFinishedRequest gameFinishedRequest) {
             super.GameFinishedRequestCallback(gameFinishedRequest);
-            if (gameFinishedRequest.getWinner().charAt(0) == TTTInstance.X) {
-                updateScreenSuccess("You Win!");
+            System.out.println("Game won by: " + gameFinishedRequest.getWinner());
+            if (gameFinishedRequest.getWinner().equals("draw")) {
+                updateScreenWarning("ITS A DRAW!");
                 internalFrame1.setVisible(false);
-            } else if (gameFinishedRequest.getWinner().charAt(0) == TTTInstance.O) {
-                updateScreenError("You Lose!");
+            } else
+
+            if (gameFinishedRequest.getWinner().charAt(0) == client.role) {
+                updateScreenSuccess("YOU WIN!");
                 internalFrame1.setVisible(false);
             } else {
-                updateScreenSuccess("It's a Draw!");
+                updateScreenError("YOU LOSE!");
+                internalFrame1.setVisible(false);
             }
             internalFrame1.setVisible(false);
         }

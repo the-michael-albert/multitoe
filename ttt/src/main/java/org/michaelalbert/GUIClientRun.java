@@ -2,9 +2,10 @@ package org.michaelalbert;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import org.michaelalbert.game.TTTWindow;
+
 import javax.swing.*;
 
-public class Main {
+public class GUIClientRun {
 
     public static void main(String[] args) {
         //expect args[0] to be the host and args[1] to be the port

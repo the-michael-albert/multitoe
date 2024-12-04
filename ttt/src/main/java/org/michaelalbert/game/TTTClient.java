@@ -24,6 +24,11 @@ public abstract class TTTClient extends TCPClient {
         this.role = role;
     }
 
+    public void queryGameList() {
+        // Send get game list request
+        sendMessage(GetGameListRequest.builder().build().toString());
+    }
+
     public void joinGame(String game) {
         // Send join request
         this.gameId = game;
@@ -98,6 +103,15 @@ public abstract class TTTClient extends TCPClient {
         } if (GameFinishedRequest.ACTION.equals(action)) {
             GameFinishedRequest gameFinishedRequest = GameFinishedRequest.fromString(receivedMessage);
             GameFinishedRequestCallback(gameFinishedRequest);
+        } if (GameListInfoRequest.ACTION.equals(action)) {
+            try {
+                GameListInfoRequest gameListInfoRequest = GameListInfoRequest.fromString(receivedMessage);
+                GameListInfoRequestCallback(gameListInfoRequest);
+            } catch (Exception e) {
+                GameListInfoRequestCallback(false);
+                e.printStackTrace();
+            }
+
         }
     }
 
@@ -123,6 +137,14 @@ public abstract class TTTClient extends TCPClient {
 
     public void SetRoleRequestCallback(SetRoleRequest setRoleRequest) {
         acceptRole(setRoleRequest);
+    }
+
+    public void GameListInfoRequestCallback(GameListInfoRequest gameListInfoRequest) {
+        log(gameListInfoRequest.getGameList().toString());
+    }
+
+    public void GameListInfoRequestCallback(boolean success) {
+        log(success ? "Success" : "no games");
     }
 
     private void acceptRole(SetRoleRequest setRoleRequest) {

@@ -4,6 +4,7 @@ import org.michaelalbert.game.reqres.*;
 import org.michaelalbert.networking.ClientHandler;
 import org.michaelalbert.networking.TCPServer;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -66,9 +67,30 @@ public class TTTServer extends TCPServer {
         if (success) {
             broadcastBoardUpdate(game);
             broadcastTurnNotification(game);
+            if (endGameChecks(game)){
+                games.remove(moveRequest.getGameId());
+            }
         } else {
             callback.sendMessage(InvalidMoveRequest.builder().message(player + " attempted tictactoe moving violation").build().toString());
         }
+    }
+
+    private boolean endGameChecks(TTTInstance game){
+        //check for win
+        //check for draw
+        char[][] board = game.getBoard();
+        if (BoardAnalyzer.isGameOver(board)){
+            char winner = BoardAnalyzer.getWinner(board);
+            if (BoardAnalyzer.isGameDraw(board)){
+                game.getPlayerX().sendMessage(GameFinishedRequest.builder().winner("draw").build().toString());
+                game.getPlayerO().sendMessage(GameFinishedRequest.builder().winner("draw").build().toString());
+                return true;
+            }
+            game.getPlayerX().sendMessage(GameFinishedRequest.builder().winner(winner + "").build().toString());
+            game.getPlayerO().sendMessage(GameFinishedRequest.builder().winner(winner + "").build().toString());
+            return true;
+        }
+        return false;
     }
 
     public static void main(String[] args) {
@@ -91,6 +113,18 @@ public class TTTServer extends TCPServer {
                     return;
                 }
                 server.handleMoveRequest(moveRequest,  callback);
+            }
+        });
+
+        server.addRequestHandler(GetGameListRequest.ACTION, new ServerRequestHandler() {
+            @Override
+            public void onMessage(String action, String data, String rawMessage, ClientHandler callback) {
+                System.out.println("GetGameListRequest");
+                ArrayList<GameTuple> gameList = new ArrayList<>();
+                server.games.forEach((gameId, game) -> {
+                    gameList.add(new GameTuple(gameId, game.getPlayerCount()));
+                });
+                callback.sendMessage(GameListInfoRequest.builder().gameList(gameList).build().toString());
             }
         });
 

@@ -2,12 +2,13 @@ package org.michaelalbert.networking.usage;
 
 import org.michaelalbert.networking.ClientHandler;
 import org.michaelalbert.networking.TCPServer;
+import org.michaelalbert.utils.GameConfig;
 
 public class ChatServer extends TCPServer {
     public static void main(String[] args) {
         ChatServer server = new ChatServer();
         System.out.println("Starting chat server on port 8888...");
-        server.start(8888);
+        server.start(GameConfig.getGamePort());
     }
 
     @Override
