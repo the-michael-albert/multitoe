@@ -45,6 +45,7 @@ public class TTTServer extends TCPServer {
         BoardUpdateRequest boardUpdateRequest = BoardUpdateRequest.builder().board(game.getBoard()).build();
         game.getPlayerX().sendMessage(boardUpdateRequest.toString());
         game.getPlayerO().sendMessage(boardUpdateRequest.toString());
+        boardUpdateRequest.printBoard();
     }
 
     private void broadcastTurnNotification(TTTInstance game) {
